@@ -1,0 +1,12 @@
+      var s = document.createElement('script');
+	s.async = false;
+	s.src = '//assets.cms.gov/resources/cms/javascript/tealiumHeadTag.js';
+	document.getElementsByTagName('head')[0].appendChild(s)
+	
+
+	var s2 = document.createElement('script');
+	s2.async = false;
+	s2.src = '//assets.cms.gov/resources/cms/javascript/tealiumBodyTag.js';
+	var body = document.body;
+	body.insertBefore(s2, body.firstChild);
+	

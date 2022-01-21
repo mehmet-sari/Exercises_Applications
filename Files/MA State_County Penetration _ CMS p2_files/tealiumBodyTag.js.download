@@ -1,0 +1,22 @@
+/***********************TEALIUM BODY SNIPPET*******************
+ *  *** This file is inserted via the tealiumTagLoad.js file
+ *
+ *  This file should be inserted into the document, after the opening <body> tag
+ *  This function requires that tealiumHeadTag.js is referenced in the <head> of the document.
+ */
+ 
+(function (t, e, a, l, i, u, m) {
+    t=window.tealiumAccount + '/' + window.tealiumProfile;
+    e=window.tealiumEnvironment;
+    a="//tags.tiqcdn.com/utag";
+    l=a+'/'+t+'/'+e+'/utag.js';
+    i=document;
+    u='script';
+    m=i.createElement(u);
+        m.src=l;
+        m.type='text/javascript';
+        m.async=true;
+        l=i.getElementsByTagName(u)[0];
+        l.parentNode.insertBefore(m,l);
+})();
+/*END********************************************************/

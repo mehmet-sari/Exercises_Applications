@@ -1,0 +1,119 @@
+﻿/***********************TEALIUM HEAD SNIPPET V.2 *******************
+ *  *** This file is inserted via the tealiumTagLoad.js file
+ *  *** This file should be updated whenever it is to be used on a site not currently listed in the profiles object below.
+ *
+ *	This file should be inserted into the document, within the <head> of the document
+ *  This function requires that tealiumBodyTag.js is referenced in the <body> of the document.
+ *
+ *  An optional "production environment" variable can be used to tie in non production environments to the appropriate Tealium profile.
+ *  To use this variable, insert the following code within the <head> portion of the document:
+ *		<script type="text/javascript">
+ *		    var tealiumProductionEnvironment = "<<PRODUCTION ENVIRONMENT HOSTNAME>>";
+ *		</script>
+ *
+ */
+ 
+
+(function (w) {
+/***********************TEALIUM ACCOUNT,PROFILE,ENVIRONMENT CONFIGURATION**********************************
+ *	profiles - for each site which contains it's own Tealium Profile, add an entry as follows:
+ *	
+ *		'<<SUBDOMAIN.DOMAIN.EXT>>' : { // only enter up to the first subdomain
+ *			profile:'<<TEALIUM PROFILE NAME>>'	
+ *			
+ *				// IF ENVIRONMENT IS NON PROD AND HOSTNAME CONTAINS ONLY 1 SUBDOMAIN OR
+ *				// IF ENVIRONMENT IS PROD AND HOSTNAME CONTAINS > 1 SUBDOMAIN,
+ *				// INCLUDE ENVIRONMENT PROPERTY AND SET VALUE TO "prod" or "dev" ( all lowercase )
+ *			,environment:'dev'
+ *		}
+ */
+	
+	var configuration = {
+		profiles : {
+			'cpms.cms.gov' : {
+				profile:'cms-cpms'
+			}
+			,'data.cms.gov' : {
+				profile:'cms-data'
+			}
+			,'dnav.cms.gov' : {
+				profile:'cms-datanav'
+			}
+			,'hfpp.cms.gov' : {
+				profile:'cms-hfpp'
+			}
+			,'hics.cms.gov' : {
+				profile:'cms-hics'
+			}
+			,'hpms.cms.gov' : {
+				profile:'cms-hpms'
+			}
+			,'innovation.cms.gov' : {
+				profile:'cms-innovations'
+			}
+			,'marketplace.cms.gov' : {
+				profile:'cms-marketplace'
+			}
+			,'openpaymentsdata.cms.gov' : {
+				profile:'cms-openpaymentsdata'
+			}
+			,'qpp.cms.gov' : {
+				profile:'cms-qpp'
+			}
+			,'qualitypaymentprogram.cms.gov' : {
+				profile:'cms-qpp'
+			}
+			,'partnershipforpatients.cms.gov' : {
+				profile:'cms-partnershipforpatients'
+			}
+			,'portal.cms.gov' : {
+				profile:'cms-portal'
+			}
+			,'qa.cms.gov' : {
+				profile:'cms-www'
+				,environment:'dev'
+			}
+			,'www.cms.gov' : {
+				profile:'cms-www'
+			}
+			,'assets.cms.gov' : {
+				profile:'cms-assets'
+			}
+		}
+		,defaults : {
+			account : "cmsgov"
+			,profile : "cms-www"
+			,environment : "dev"
+		}
+		,prod : w.tealiumProductionEnvironment /* optional variable for identifying non prod environments */
+		,domain : w.localStorage && localStorage.testDomain ? localStorage.testDomain:document.location.hostname /** option for testing from localStorage  **/
+	}
+	
+	
+	
+/**************************************************************
+ *****                 DO NOT MODIFY BELOW                *****
+ *************************************************************/
+	var setValues = (function(w,c) {
+		var parts = c.domain.split('.');
+		var joined = [ parts.pop(), parts.pop(), (parts.length >0 ? parts.pop():undefined)].reverse().join('.');
+		var profile_entry = c.profiles[joined];
+		
+/* if entry exists and containst account set to account, else default account */
+		w.tealiumAccount = profile_entry && profile_entry.account ? profile_entry.account:c.defaults.account;
+
+/* if in profiles set from .profile else if tpe exists and tpe is in profiles set from profiles[tpe].profile else profiles.default.profile */
+		w.tealiumProfile = profile_entry ? profile_entry.profile: ( c.prod && c.profiles[c.prod] ? c.profiles[c.prod].profile:c.defaults.profile );
+		
+/* if entry exists and has environment or host is not subdomain of entry set to prod, if subdomain of entry, to dev, else default env */
+		w.tealiumEnvironment = profile_entry ? (profile_entry.environment || (parts.length==0 ? "prod":"dev" )):c.defaults.environment;
+
+	})(w,configuration);
+
+	var s = document.createElement('script');
+	s.async = false;
+	s.src = '//tags.tiqcdn.com/utag/'+w.tealiumAccount+'/' + w.tealiumProfile + '/' + w.tealiumEnvironment + '/utag.sync.js';
+	document.getElementsByTagName('head')[0].appendChild(s)
+
+})(window);
+/*END********************************************************/
